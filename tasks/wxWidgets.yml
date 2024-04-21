@@ -2,15 +2,21 @@
 
 # file: tasks/main.yml
 
-# - name: wxWidgets | check if install exists
-#   cmd:
-#     wx-config --version
-#   register: wxWidgets_exists
+- name: wxWidgets | Check is wx-config installed
+  shell: command -v wx-config >/dev/null 2>&1
+  register: wx_config_exists
+  ignore_errors: yes
+
+- name: wxWidgets | check version
+  cmd:
+    wx-config --version
+  when: wx_config_exists.rc == 0
+  register: wxWidgets_version
 
 - name: wxWidgets | Get wxWidgets sources
   become: true
   get_url: url="{{ wxWidgets_url }}" dest="{{ wxWidgets_tmp }}" timeout=180 force=no
-#  when: not wxWidgets_exists.stat.exists
+  when: ( wx_config_exists.rc == 1 ) or ( not wxWidgets_version.results == {{ wxWidgets_version }} )
   register: wxWidgets_downloaded
 
 - name: wxWidgets | Extract wxWidgets sources

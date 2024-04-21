@@ -20,7 +20,7 @@
              creates="{{ wxWidgets_build }}"
              remote_src=yes
   when: wxWidgets_downloaded.changed
-  register: wxWidgets_extract
+  #register: wxWidgets_extract
 
 - name: wxWidgets | configure wxWidgets Makefile
   ansible.builtin.command:
@@ -35,8 +35,8 @@
       # --with-json
       # --without-x-toolkit
       # --without-x
-  when: wxWidgets.changed
-  register: wxWidgets_configure
+  #when: wxWidgets.changed
+  #register: wxWidgets_configure
 
 - name: wxWidgets | make and install wxWidgets
   ansible.builtin.command:
@@ -45,15 +45,15 @@
     cmd:
       make install
   become: true
-  when: wxWidgets_configure.changed
-  register: wxWidgets_install
+  #when: wxWidgets_configure.changed
+  #register: wxWidgets_install
 
 - name: wxWidgets | cleanup tmp
   become: true
   file:
     path: "{{ wxWidgets_tmp }}"
     state: absent
-  when: wxWidgets_install.changed
+  #when: wxWidgets_install.changed
 ...
 
 

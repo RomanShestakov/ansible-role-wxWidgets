@@ -60,7 +60,13 @@
   file:
     path: "{{ wxWidgets_tmp }}"
     state: absent
-  #when: wxWidgets_install.changed
+
+- name: wxWidgets | cleanup tmp build
+  become: true
+  file:
+    path: "{{ wxWidgets_build }}"
+    state: absent
+  
 ...
 
 

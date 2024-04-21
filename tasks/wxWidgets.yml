@@ -8,8 +8,9 @@
   ignore_errors: yes
 
 - name: wxWidgets | check version
-  cmd:
-    wx-config --version
+  ansible.builtin.command:
+    cmd:
+      wx-config --version
   when: wx_config_exists.rc == 0
   register: wxWidgets_version
 

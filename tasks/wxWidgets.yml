@@ -14,11 +14,6 @@
   when: wx_config_exists.rc == 0
   register: wxWidgets_ver
 
-# # MD5(otp_src_26.0.tar.gz)= 4c96f3e7414b4b31aaf02bc7b47bbc91
-# - name: wxWidgets | Parse version
-#   ansible.builtin.set_fact:
-#     wxwidgets_ver: "{{ wxWidgets_version.content | regex_search( 'otp_src_{{ otp_version }}.tar.gz?= (.*)') }}"
-
 - debug:
     msg: "CheckSum = {{ wxWidgets_ver }}"
 
@@ -26,7 +21,7 @@
   become: true
   get_url: url="{{ wxWidgets_url }}" dest="{{ wxWidgets_tmp }}" timeout=180 force=no
   when: ( wx_config_exists.rc == 1 ) or ( wxWidgets_ver.stdout != '3.2.4' )
-  #register: wxWidgets_downloaded
+  register: wxWidgets_downloaded
 
 - name: wxWidgets | Extract wxWidgets sources
   become: true
@@ -34,8 +29,7 @@
              dest="/tmp"
              creates="{{ wxWidgets_build }}"
              remote_src=yes
-  #when: wxWidgets_downloaded.changed
-  #register: wxWidgets_extract
+  when: wxWidgets_downloaded.changed
 
 - name: wxWidgets | configure wxWidgets Makefile
   ansible.builtin.command:
@@ -43,15 +37,7 @@
       "{{ wxWidgets_build }}"
     cmd:
       ./configure
-      # --prefix="{{ emacs_install_dir }}"
-      # --with-tree-sitter
-      # --with-native-compilation=aot
-      # --with-file-notification=inotify
-      # --with-json
-      # --without-x-toolkit
-      # --without-x
-  #when: wxWidgets.changed
-  #register: wxWidgets_configure
+  when: wxWidgets_downloaded.changed
 
 - name: wxWidgets | make and install wxWidgets
   ansible.builtin.command:
@@ -60,21 +46,21 @@
     cmd:
       make install
   become: true
-  #when: wxWidgets_configure.changed
-  #register: wxWidgets_install
+  when: wxWidgets_downloaded.changed
 
 - name: wxWidgets | cleanup tmp
   become: true
   file:
     path: "{{ wxWidgets_tmp }}"
     state: absent
+  when: wxWidgets_downloaded.changed
 
 - name: wxWidgets | cleanup tmp build
   become: true
   file:
     path: "{{ wxWidgets_build }}"
     state: absent
-  
+  when: wxWidgets_downloaded.changed
 ...
 
 

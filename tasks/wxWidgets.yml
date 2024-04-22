@@ -12,7 +12,7 @@
     cmd:
       wx-config --version
   when: wx_config_exists.rc == 0
-  register: wxWidgets_version
+  register: wxWidgets_ver
 
 # # MD5(otp_src_26.0.tar.gz)= 4c96f3e7414b4b31aaf02bc7b47bbc91
 # - name: wxWidgets | Parse version
@@ -20,12 +20,12 @@
 #     wxwidgets_ver: "{{ wxWidgets_version.content | regex_search( 'otp_src_{{ otp_version }}.tar.gz?= (.*)') }}"
 
 - debug:
-    msg: "CheckSum = {{ wxWidgets_version }}"
+    msg: "CheckSum = {{ wxWidgets_ver }}"
 
 - name: wxWidgets | Get wxWidgets sources
   become: true
   get_url: url="{{ wxWidgets_url }}" dest="{{ wxWidgets_tmp }}" timeout=180 force=no
-  when: ( wx_config_exists.rc == 1 ) or ( wxWidgets_version.stdout != '3.2.4' )
+  when: ( wx_config_exists.rc == 1 ) or ( wxWidgets_ver.stdout != '3.2.4' )
   #register: wxWidgets_downloaded
 
 - name: wxWidgets | Extract wxWidgets sources

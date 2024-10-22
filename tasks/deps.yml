@@ -6,5 +6,5 @@
     state: latest
     update_cache: yes
   with_items:
-    - libwebkit2gtk-4.0-dev
+    - libwebkit2gtk-4.1-dev
   #when: ansible_distribution == "Ubuntu"

@@ -48,7 +48,7 @@
     chdir:
       "{{ wxWidgets_build }}"
     cmd:
-      make install
+      make -j4 install
   become: true
   when: wxWidgets_downloaded.changed
 

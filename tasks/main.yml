@@ -1,6 +1,6 @@
 ---
 # tasks/main.yml
 
-- include_tasks: 'deps.yml'
+#- include_tasks: 'deps.yml'
 - include_tasks: 'wxWidgets.yml'
 ...

@@ -1,0 +1,10 @@
+# tasks/deps.yml
+
+- name: Install Common useful tools Ubuntu
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - libwebkit2gtk-4.0-dev
+  #when: ansible_distribution == "Ubuntu"

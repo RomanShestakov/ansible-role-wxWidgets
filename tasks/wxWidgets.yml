@@ -37,6 +37,10 @@
       "{{ wxWidgets_build }}"
     cmd:
       ./configure
+      --prefix="{{ wxWidgets_install_dir }}"
+      --enable-webview
+      --enable-compat28
+      --with-gtk=3
   when: wxWidgets_downloaded.changed
 
 - name: wxWidgets | make and install wxWidgets

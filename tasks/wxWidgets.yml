@@ -20,7 +20,7 @@
 - name: wxWidgets | Get wxWidgets sources
   become: true
   get_url: url="{{ wxWidgets_url }}" dest="{{ wxWidgets_tmp }}" timeout=180 force=no
-  when: ( wx_config_exists.rc == 1 ) or ( wxWidgets_ver.stdout != '3.2.4' )
+  #when: ( wx_config_exists.rc == 1 ) or ( wxWidgets_ver.stdout != '3.2.4' )
   register: wxWidgets_downloaded
 
 - name: wxWidgets | Extract wxWidgets sources

@@ -41,6 +41,8 @@
       --enable-webview
       --enable-compat28
       --with-gtk=3
+      --disable-shared
+      --enable-unicode      
   when: wxWidgets_downloaded.changed
 
 - name: wxWidgets | make and install wxWidgets

@@ -9,5 +9,6 @@ e.g
 export ANSIBLE_ROLES_PATH=/home/romanshestakov/development
 sudo ansible localhost --playbook-dir $ANSIBLE_ROLES_PATH --module-name include_role --args name=ansible-role-wxWidgets
 
-
+# check version
+wx-config --version-full  
 
